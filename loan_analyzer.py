@@ -67,14 +67,17 @@ loan = {
 # Print each variable.
 future_value = loan.get("future_value")
 remaining_months = loan.get("remaining_months")
-print(future_value, remaining_months)
+print(f"The future value of this loan is ${future_value}.")
+print(f"There are {remaining_months} months of remaining loan payments.")
 
 # @TODO: Use the formula for Present Value to calculate a "fair value" of the loan.
 # Use a minimum required return of 20% as the discount rate.
 #   You'll want to use the **monthly** version of the present value formula.
 #   HINT: Present Value = Future Value / (1 + Discount_Rate/12) ** remaining_months
 
-fair_value = future_value / ((1 + (.20/12)) ** remaining_months)
+fair_value = round(future_value / ((1 + (.20/12)) ** remaining_months), 2)
+
+print(f"The loan's fair value is ${fair_value}.")
 
 # If Present Value represents what the loan is really worth, does it make sense to buy the loan at its cost?
 # @TODO: Write a conditional statement (an if-else statement) to decide if the present value represents the loan's fair value.
@@ -120,7 +123,7 @@ present_value = calculate_present_value(
     0.2
 )
 
-print(f"The present value of the loan is: {present_value}")
+print(f"The present value of the loan is ${present_value}.")
 
 
 """Part 4: Conditionally filter lists of loans.
@@ -195,4 +198,9 @@ output_path = Path("inexpensive_loans.csv")
 
 # @TODO: Use the csv library and `csv.writer` to write the header row
 # and each row of `loan.values()` from the `inexpensive_loans` list.
-# YOUR CODE HERE!
+with open(output_path, "w") as csvfile:
+    csvwriter = csv.writer(csvfile, delimiter=",")
+    csvwriter.writerow(header)
+
+    for loan in inexpensive_loans:
+        csvwriter.writerow(loan.values())
